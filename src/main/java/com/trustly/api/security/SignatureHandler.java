@@ -46,7 +46,9 @@ import com.trustly.api.commons.exceptions.TrustlySignatureException;
 import com.trustly.api.data.notification.Notification;
 import com.trustly.api.data.request.Request;
 import com.trustly.api.data.request.RequestData;
-import com.trustly.api.data.response.*;
+import com.trustly.api.data.response.ErrorBody;
+import com.trustly.api.data.response.Response;
+import com.trustly.api.data.response.Result;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -72,11 +74,15 @@ public class SignatureHandler {
     }
 
     public void init(String privateKeyPath, String keyPassword, String username, String password, boolean testEnvironment) throws KeyException {
+    	init(privateKeyPath, keyPassword, username, password, testEnvironment, true);
+    }
+    
+    public void init(String privateKey, String keyPassword, String username, String password, boolean testEnvironment, boolean keyIsPath) throws KeyException {
         this.username = username;
         this.password = password;
 
         keyChain = new KeyChain(testEnvironment);
-        keyChain.loadMerchantPrivateKey(privateKeyPath, keyPassword);
+        keyChain.loadMerchantPrivateKey(privateKey, keyPassword, keyIsPath);
     }
 
     /**

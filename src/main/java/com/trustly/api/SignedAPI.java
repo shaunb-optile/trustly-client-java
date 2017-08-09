@@ -58,9 +58,21 @@ public class SignedAPI {
     }
 
     public void init(String privateKeyPath, String keyPassword, String username, String password, boolean testEnvironment) {
+        init(privateKeyPath, keyPassword, username, password, testEnvironment, true);
+    }
+    
+    /**
+     * Initialize SignedAPI
+     * @param full privateKey OR privateKey path and name of private key.
+     * @param password Password for the private key. "" or null if key requires no password.
+     * @param testEnvironment - is this the test environment
+     * @param keyIsPath - true if privateKey is the path & filename of the private key, false if it is the key itself
+     * @throws KeyException if key failed to load. For example if the path is incorrect.
+     */
+    public void init(String privateKey, String keyPassword, String username, String password, boolean testEnvironment, boolean keyIsPath) {
         setEnvironment(testEnvironment);
         try {
-            signatureHandler.init(privateKeyPath, keyPassword, username, password, testEnvironment);
+            signatureHandler.init(privateKey, keyPassword, username, password, testEnvironment, keyIsPath);
         }
         catch (KeyException e) {
             e.printStackTrace();
